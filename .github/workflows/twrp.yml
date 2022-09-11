@@ -1,0 +1,34 @@
+name: TWRP CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: TWRP Build CI
+    runs-on: ubuntu-18.04
+
+    env:
+      OEM: samsung
+      DEVICE: j1pop3g
+      BRANCH: twrp-5.1
+
+    steps:
+    # You might want to Checkout your repo first, but not mandatory
+    - name: Set Swap Space
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 12
+    - name: Check Out
+      uses: actions/checkout@v3
+    # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
+      # That's it! Now use your normal steps
+    - uses: actions/checkout@v2
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+
+
+    - name: Uploading TWRP builds
+      uses: actions/upload-artifact@v2
